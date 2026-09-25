@@ -1,0 +1,60 @@
+cabal-version:      3.0
+name:               eclips-protocol-frame
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Pure family-neutral framing for ECLIPS protocols
+description:
+    Pure encoding and prefix-preserving incremental decoding for the shared
+    current-build ECLIPS length, family-magic, and opaque-body envelope.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library
+  import:             warnings
+  exposed-modules:    Eclips.Protocol.Frame
+  hs-source-dirs:      src
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13
+  default-language:    GHC2024
+
+test-suite protocol-frame-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:      FrameProperties
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      eclips-protocol-frame,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024

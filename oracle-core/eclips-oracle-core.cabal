@@ -1,0 +1,118 @@
+cabal-version:      3.0
+name:               eclips-oracle-core
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Pure Oracle control kernel for the ECLIPS prototype
+description:
+    Domain-separated canonical Oracle commands, checked Oracle/Raft genesis,
+    immutable request receipts and projection entries, and the pure Step-15
+    process, label-workflow, failure-probe, membership, and disappearance transition kernel.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library
+  import:             warnings
+  exposed-modules:
+      Eclips.Oracle.Admission
+      Eclips.Oracle.Failure
+      Eclips.Oracle.Voter
+      Eclips.Oracle.Identity
+      Eclips.Oracle.Genesis
+      Eclips.Oracle.Command
+      Eclips.Oracle.Disappearance
+      Eclips.Oracle.Canonical
+      Eclips.Oracle.Receipt
+      Eclips.Oracle.Projection
+      Eclips.Oracle.Progress
+      Eclips.Oracle.Input
+      Eclips.Oracle.Effect
+      Eclips.Oracle.State
+      Eclips.Oracle.Label
+      Eclips.Oracle.Step15.Reference
+      Eclips.Oracle.Step15.WorkflowReference
+      Eclips.Oracle.Transition
+  other-modules:
+      Eclips.Oracle.Internal.Admission
+      Eclips.Oracle.Internal.Voter
+      Eclips.Oracle.Internal.CanonicalState
+      Eclips.Oracle.Internal.ConfiguredBootstrapCanonical
+      Eclips.Oracle.Internal.Digest
+      Eclips.Oracle.Internal.Disappearance
+      Eclips.Oracle.Internal.DisappearanceCanonical
+      Eclips.Oracle.Internal.Failure
+      Eclips.Oracle.Internal.Label
+      Eclips.Oracle.Internal.LabelCanonical
+  hs-source-dirs:      src
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      cereal >=0.5.8 && <0.6,
+      containers >=0.8 && <0.9,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      text >=2.1 && <2.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2
+  default-language:    GHC2024
+
+test-suite oracle-core-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      AdmissionProperties
+      CanonicalProperties
+      DynamicProcessProperties
+      GenesisProperties
+      LabelProperties
+      LabelRetirementProperties
+      OracleLabelProperties
+      OracleFixtures
+      OracleModelProperties
+      ReceiptRetirementProperties
+      Step15ReferenceProperties
+      Step15WorkflowProperties
+      Step16DisappearanceProperties
+      Eclips.Oracle.Step16.DisappearanceReference
+      TransitionProperties
+      VoterProperties
+      VoterFailureFixtures
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-public-types >=0.1 && <0.2,
+      bytestring >=0.12.2 && <0.13,
+      cereal >=0.5.8 && <0.6,
+      containers >=0.8 && <0.9,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      eclips-domain >=0.1 && <0.2,
+      eclips-oracle-core,
+      eclips-raft-core >=0.1 && <0.2,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024

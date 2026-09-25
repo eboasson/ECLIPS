@@ -1,0 +1,3 @@
+# Private research records never belong in a public source export.
+/docs/development-history export-ignore
+/private-notes export-ignore

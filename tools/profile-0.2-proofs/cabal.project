@@ -1,0 +1,3 @@
+packages: ./eclips-profile02-proofs.cabal
+
+tests: True

@@ -1,0 +1,44 @@
+# Profile-0.2 checked development/release test-component inventory.
+#
+# Format: CLASS FULLY-QUALIFIED-CABAL-TEST-TARGET
+#
+# Keep every test-suite in the root cabal.project in exactly one class.  The
+# inventory checker derives the live component set from cabal.project and the
+# referenced package files, so adding or removing a suite without updating this
+# file fails before Cabal starts a test build. The independent proof-contracts
+# suite belongs to tools/profile-0.2-proofs and is run explicitly by both gates.
+
+parallel-safe eclips-public-types:test:public-types-properties
+parallel-safe eclips-application-types:test:application-types-properties
+parallel-safe eclips-domain:test:domain-properties
+parallel-safe eclips-protocol-frame:test:protocol-frame-properties
+parallel-safe eclips-protocol-application:test:protocol-application-properties
+parallel-safe eclips-protocol-admin:test:protocol-admin-properties
+parallel-safe eclips-protocol-peer:test:protocol-peer-properties
+parallel-safe eclips-raft-core:test:raft-core-properties
+parallel-safe eclips-oracle-core:test:oracle-core-properties
+parallel-safe eclips-protocol-oracle:test:protocol-oracle-properties
+parallel-safe eclips-herald-core:test:herald-core-properties
+parallel-safe eclips-herald-core:test:herald-step16-prospective-properties
+parallel-safe eclips-application-client:test:application-client-properties
+parallel-safe eclips-deployment:test:deployment-properties
+parallel-safe eclips-hello-context:test:hello-context-properties
+
+# These components own threads, subprocesses, real sockets, timing assertions,
+# or long-lived runtime scopes.  Run their top-level executables sequentially.
+# Do not pass a blanket --test-options value: each suite's Main owns its Tasty
+# concurrency policy (including the Step-15 NumThreads 1 cap).
+timing-sensitive eclips-protocol-raft:test:protocol-raft-properties
+timing-sensitive eclips-application-api:test:application-api-properties
+timing-sensitive eclips-oracle-runtime:test:oracle-runtime-properties
+timing-sensitive eclips-herald-runtime:test:herald-runtime-properties
+timing-sensitive eclips-herald-runtime:test:herald-slice1-tcp-properties
+timing-sensitive eclips-herald-runtime:test:herald-step12-control-properties
+timing-sensitive eclips-herald-runtime:test:herald-step14-label-properties
+timing-sensitive eclips-herald-runtime:test:herald-step15-crash-properties
+timing-sensitive eclips-herald-runtime:test:herald-step16-failure-properties
+timing-sensitive eclips-herald-runtime:test:herald-slice1-process-properties
+timing-sensitive eclips-hello-world:test:hello-world-integration
+timing-sensitive eclips-hello-context:test:hello-context-integration
+
+timing-sensitive eclips-deployment:test:deployment-os-integration

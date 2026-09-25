@@ -1,0 +1,5 @@
+module PublicSessionOwnerConstruction where
+
+import Eclips.Herald.Application.Session (applicationAttachmentForBootstrap)
+
+ownerOnlySessionConstructor = applicationAttachmentForBootstrap

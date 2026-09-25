@@ -1,0 +1,35 @@
+# OS and editor files
+.DS_Store
+*~
+\#*\#
+.#*
+*.swp
+*.swo
+
+# Haskell build products
+dist/
+dist-newstyle/
+dist-newstyle-*/
+.stack-work/
+.cabal-sandbox/
+.cabal/
+cabal.sandbox.config
+cabal.project.local
+.ghc.environment.*
+*.hi
+*.hie
+*.o
+*.dyn_hi
+*.dyn_o
+*.prof
+*.hp
+
+# Python verification helpers
+__pycache__/
+*.pyc
+
+# Local build and temporary directories
+/build/
+/build-*/
+/tmp/
+compile_commands.json

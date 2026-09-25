@@ -1,0 +1,67 @@
+cabal-version:      3.0
+name:               eclips-module-boundaries
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Parsed package and import boundary checks for ECLIPS
+description:
+    A development-only checker for the reviewed ECLIPS package plan. It parses
+    Cabal files through Cabal-syntax and checks Haskell imports without relying
+    on line-oriented shell extraction.
+category:           Development
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+  default-language: GHC2024
+
+library
+  import:          warnings
+  exposed-modules: Eclips.ModuleBoundaries
+  other-modules:   Eclips.ModuleBoundaries.MembershipLedger
+  hs-source-dirs:  src
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      Cabal-syntax >=3.16 && <3.17,
+      containers >=0.8 && <0.9,
+      directory >=1.3.8 && <1.4,
+      filepath >=1.5.4 && <1.6
+
+executable eclips-module-boundaries
+  import:         warnings
+  ghc-options: -rtsopts -with-rtsopts=-M768m
+  main-is:        Main.hs
+  hs-source-dirs: app
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-module-boundaries
+
+test-suite module-boundaries-negative
+  import:         warnings
+  ghc-options: -rtsopts -with-rtsopts=-M768m
+  type:           exitcode-stdio-1.0
+  main-is:        Main.hs
+  hs-source-dirs: test
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      directory >=1.3.8 && <1.4,
+      eclips-module-boundaries,
+      filepath >=1.5.4 && <1.6

@@ -1,0 +1,157 @@
+cabal-version:      3.0
+name:               eclips-deployment
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Explicit ECLIPS deployment and operator entry points
+description:
+    Checked fixed deployment configuration and supervised Herald/Oracle
+    composition, with an explicit fresh founder and operator clients.
+category:           Distributed
+
+common warnings
+  default-language: GHC2024
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library
+  import:           warnings
+  exposed-modules:
+      Eclips.Deployment.Timing
+      Eclips.Deployment.Configuration
+      Eclips.Deployment.Discovery
+      Eclips.Deployment.Joining
+      Eclips.Deployment.Manifest
+      Eclips.Deployment.Runtime
+      Eclips.Deployment.Admin
+  other-modules:
+      Eclips.Deployment.Admin.Exchange
+      Eclips.Deployment.Joining.HistoryTransfer
+  hs-source-dirs:   src internal
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime >=0.1 && <0.2,
+      eclips-herald-runtime:tcp,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      text >=2.1.3 && <2.2
+
+executable eclips-herald
+  import:           warnings
+  hs-source-dirs:   app/herald
+  main-is:          Main.hs
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-M768m
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      eclips-deployment,
+      entropy >=0.4.1.11 && <0.5,
+      text >=2.1.3 && <2.2
+
+executable eclips-admin
+  import:           warnings
+  hs-source-dirs:   app/admin
+  main-is:          Main.hs
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-M768m
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-deployment,
+      text >=2.1.3 && <2.2
+
+test-suite deployment-properties
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   test internal
+  main-is:          Main.hs
+  other-modules:
+      TimingProperties
+      AdminProperties
+      DiscoveryProperties
+      JoiningProperties
+      Eclips.Deployment.Admin.Exchange
+      Eclips.Deployment.Joining.HistoryTransfer
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-M768m
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-deployment,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+
+test-suite deployment-os-integration
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   test-os
+  main-is:          Main.hs
+  other-modules:    Proxy ParentExit VoterApplication VoterCheckpoint NativeHealth Partition Timing
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-M768m
+  build-tool-depends:
+      eclips-deployment:eclips-herald,
+      eclips-deployment:eclips-admin,
+      eclips-hello-world:eclips-hello-launcher,
+      eclips-hello-world:eclips-hello-publisher,
+      eclips-hello-world:eclips-hello-reader
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      directory >=1.3 && <1.4,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-deployment,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-herald-runtime >=0.1 && <0.2,
+      eclips-protocol-oracle >=0.1 && <0.2,
+      eclips-protocol-frame >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-protocol-raft >=0.1 && <0.2,
+      filepath >=1.5 && <1.6,
+      network >=3.2.8 && <3.3,
+      process >=1.6 && <1.7,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      text >=2.1.3 && <2.2

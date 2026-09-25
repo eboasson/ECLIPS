@@ -1,0 +1,85 @@
+cabal-version:      3.0
+name:               eclips-protocol-oracle
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Pure Oracle client protocol for ECLIPS
+description:
+    Structurally checked nominal claims, protocol-owned canonical-byte DTOs,
+    the closed current EORC vocabulary, and pure prefix-preserving framing.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+      -Werror=orphans
+
+library
+  import:             warnings
+  exposed-modules:
+      Eclips.Protocol.Oracle.Types
+      Eclips.Protocol.Oracle.Codec
+      Eclips.Protocol.Oracle.Frame
+  hs-source-dirs:      src
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      eclips-domain >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-protocol-frame >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2
+  default-language:    GHC2024
+
+test-suite protocol-oracle-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      AdmissionProperties
+      CodecProperties
+      DisappearanceProperties
+      OracleFixtures
+      FrameProperties
+      TestFixtures
+      TypesProperties
+      VoterProperties
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-public-types >=0.1 && <0.2,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      eclips-domain >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-frame >=0.1 && <0.2,
+      eclips-protocol-oracle,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-protocol-raft >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024

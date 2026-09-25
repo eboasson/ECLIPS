@@ -1,0 +1,452 @@
+cabal-version:      3.0
+name:               eclips-herald-core
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Pure transition machinery for the networked Herald kernel
+description:
+    Pure profile-0.1 startup and transition machinery for the composed Herald
+    state. It includes the eight application operations, retained direct private
+    environments, controlled publication and forwarding, structural and alignment
+    convergence, captured-membership disappearance and regular-sort retirement,
+    live process/label/failure/disappearance Oracle workflows, contiguous control
+    projection, peer discovery and resumable streams, generation-qualified
+    dispatch, terminal-source repair, and irreversible non-voter isolation.
+    Typed RPC facades expose admission and effect projection; leaf state,
+    identities, sequencing, and atomic coordinators remain in one package-private
+    implementation library.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library kernel-internal
+  import:             warnings
+  visibility:         private
+  exposed-modules:
+      Eclips.Herald.Administration
+      Eclips.Herald.Administration.Internal
+      Eclips.Herald.Administration.RPC
+      Eclips.Herald.Administration.RPC.Internal
+      Eclips.Herald.Administration.State
+      Eclips.Herald.Application.Environment
+      Eclips.Herald.Application.Disappearance
+      Eclips.Herald.Application.PrivateIdentity
+      Eclips.Herald.Application.Forward
+      Eclips.Herald.Application.Publication
+      Eclips.Herald.Application.PublicationEvidence
+      Eclips.Herald.Application.Query
+      Eclips.Herald.Application.Recovery
+      Eclips.Herald.Application.Recovery.Internal
+      Eclips.Herald.Application.RPC
+      Eclips.Herald.Application.RPC.Internal
+      Eclips.Herald.Application.Request
+      Eclips.Herald.Application.Request.Internal
+      Eclips.Herald.Application.Session
+      Eclips.Herald.Application.Session.Internal
+      Eclips.Herald.Application.SortDefinition
+      Eclips.Herald.Application.Primordial
+      Eclips.Herald.Application.Primordial.Transfer
+      Eclips.Herald.Application.State
+      Eclips.Herald.Authority
+      Eclips.Herald.Bootstrap
+      Eclips.Herald.ConfiguredProcess.Start
+      Eclips.Herald.ConfiguredProcess.State
+      Eclips.Herald.ProcessPreparation.State
+      Eclips.Herald.ProcessPreparation.Readiness
+      Eclips.Herald.ProcessPreparation.Protocol
+      Eclips.Herald.Controlled.Operate
+      Eclips.Herald.Controlled.Disappearance
+      Eclips.Herald.Controlled.State
+      Eclips.Herald.Disappearance.Evidence
+      Eclips.Herald.Disappearance.Gate
+      Eclips.Herald.Disappearance.Evidence.Internal
+      Eclips.Herald.Disappearance.OwnerEvidence
+      Eclips.Herald.Disappearance.Protocol
+      Eclips.Herald.Disappearance.State
+      Eclips.Herald.DiagnosticChecks
+      Eclips.Herald.Diagnostics
+      Eclips.Herald.Discovery
+      Eclips.Herald.Discovery.Internal
+      Eclips.Herald.Discovery.State
+      Eclips.Herald.EffectBatch
+      Eclips.Herald.EffectivePublication
+      Eclips.Herald.FailureDetection.State
+      Eclips.Herald.Genesis
+      Eclips.Herald.Genesis.Internal
+      Eclips.Herald.Graph.Progress
+      Eclips.Herald.Graph.Disappearance
+      Eclips.Herald.Graph.DisappearanceReadiness
+      Eclips.Herald.Graph.Protocol
+      Eclips.Herald.Graph.State
+      Eclips.Herald.Graph.TerminalSource
+      Eclips.Herald.IdGenerator
+      Eclips.Herald.IdGenerator.Internal
+      Eclips.Herald.IdGenerator.State
+      Eclips.Herald.Initialization
+      Eclips.Herald.Input
+      Eclips.Herald.Internal.Derived
+      Eclips.Herald.Internal.Diagnostics
+      Eclips.Herald.Internal.Prepared
+      Eclips.Herald.Internal.WorkIndex
+      Eclips.Herald.Isolation
+      Eclips.Herald.Isolation.Internal
+      Eclips.Herald.Isolation.State
+      Eclips.Herald.Join
+      Eclips.Herald.Join.Bootstrap
+    Eclips.Herald.Join.Base
+      Eclips.Herald.Join.State
+      Eclips.Herald.Join.Replay
+      Eclips.Herald.Join.Readiness
+      Eclips.Herald.Join.History
+      Eclips.Herald.Join.Seal
+      Eclips.Herald.Join.SourceBundle
+      Eclips.Herald.Label.Collection
+      Eclips.Herald.LabelBarrier.State
+      Eclips.Herald.OracleClient
+      Eclips.Herald.OracleClient.Internal
+      Eclips.Herald.OracleClient.Request
+      Eclips.Herald.OracleClient.State
+      Eclips.Herald.OracleHealth
+      Eclips.Herald.OracleHealth.State
+      Eclips.Herald.OracleProjection
+      Eclips.Herald.OracleProjection.State
+      Eclips.Herald.OracleProjection.Step15
+      Eclips.Herald.Peer.RPC
+      Eclips.Herald.Peer.RPC.Internal
+      Eclips.Herald.Peer.Step15
+      Eclips.Herald.PeerDispatch
+      Eclips.Herald.PeerDispatch.Internal
+      Eclips.Herald.PeerLiveness
+      Eclips.Herald.PeerLiveness.Internal
+      Eclips.Herald.PeerLiveness.State
+      Eclips.Herald.PeerPayload
+      Eclips.Herald.PeerStream
+      Eclips.Herald.PeerStream.Disappearance
+      Eclips.Herald.PeerStream.State
+      Eclips.Herald.PeerPublication
+      Eclips.Herald.Placement
+      Eclips.Herald.Placement.Disappearance
+      Eclips.Herald.Placement.State
+      Eclips.Herald.Publication.Route
+      Eclips.Herald.Publication.Disappearance
+      Eclips.Herald.Publication.Groups
+      Eclips.Herald.Publication.State
+      Eclips.Herald.Query
+      Eclips.Herald.SortRegistry.State
+      Eclips.Herald.Startup.Invariant
+      Eclips.Herald.Startup.Semantic
+      Eclips.Herald.Startup.State
+      Eclips.Herald.Store.Observation
+      Eclips.Herald.Store.Disappearance
+      Eclips.Herald.Store.State
+      Eclips.Herald.TerminalSourceHold.State
+      Eclips.Herald.Alignment.CutQueries
+      Eclips.Herald.Alignment.Generation
+      Eclips.Herald.Alignment.Plan
+      Eclips.Herald.Alignment.Plan.Identity
+      Eclips.Herald.Alignment.History
+      Eclips.Herald.Alignment.Disappearance
+      Eclips.Herald.Alignment.Loss
+      Eclips.Herald.Alignment.Protocol
+      Eclips.Herald.Alignment.State
+      Eclips.Herald.PeerDelivery
+      Eclips.Herald.PeerDelivery.State
+      Eclips.Herald.UseCase.PeerDelivery
+      Eclips.Herald.Alignment.Transfer
+      Eclips.Herald.Structural.Debt
+      Eclips.Herald.Structural.Reconciliation
+      Eclips.Herald.Time
+      Eclips.Herald.Timer
+      Eclips.Herald.Timer.Internal
+      Eclips.Herald.Transition
+      Eclips.Herald.UseCase.Join
+      Eclips.Herald.UseCase.JoinControlTails
+      Eclips.Herald.UseCase.ApplicationCall
+      Eclips.Herald.UseCase.ProcessPreparation
+      Eclips.Herald.UseCase.ApplicationLiveness
+      Eclips.Herald.UseCase.ApplicationRetirement
+      Eclips.Herald.UseCase.ControlledRemoval
+      Eclips.Herald.UseCase.Disappearance
+      Eclips.Herald.UseCase.DisappearanceLive
+      Eclips.Herald.UseCase.FailureDetection
+        Eclips.Herald.UseCase.LabelPatch
+      Eclips.Herald.UseCase.Administration
+      Eclips.Herald.UseCase.Alignment
+      Eclips.Herald.UseCase.AlignmentHistory
+      Eclips.Herald.UseCase.AlignmentTransfer
+      Eclips.Herald.UseCase.NewId
+      Eclips.Herald.UseCase.NewEnvironment
+      Eclips.Herald.UseCase.JoinHistory
+      Eclips.Herald.UseCase.ControlBase
+      Eclips.Herald.UseCase.ControlReclamation
+      Eclips.Herald.UseCase.LabelCollection
+      Eclips.Herald.UseCase.OracleAdvance
+      Eclips.Herald.UseCase.PeerControl
+      Eclips.Herald.UseCase.PeerInput
+      Eclips.Herald.UseCase.PeerPlacement
+      Eclips.Herald.UseCase.RegularRetirement
+      Eclips.Herald.UseCase.StructuralCoordinator
+      Eclips.Herald.UseCase.StructuralProgress
+      Eclips.Herald.UseCase.StructuralSettlement
+      Eclips.Herald.UseCase.Step15FailureVertical
+      Eclips.Herald.UseCase.Step15MembershipAdvance
+      Eclips.Herald.UseCase.Step15RetirementClosure
+      Eclips.Herald.UseCase.Step15StructuralBase
+      Eclips.Herald.UseCase.TerminalStructuralArchive
+      Eclips.Herald.UseCase.TerminalStructuralStart
+      Eclips.Herald.Visibility.State
+      Eclips.Herald.Wait.State
+  hs-source-dirs:      src internal
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      cereal >=0.5.8 && <0.6,
+      containers >=0.8 && <0.9,
+      crypton >=1.1.4 && <1.2,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      text >=2.1.3 && <2.2
+  default-language:    GHC2024
+
+library
+  import:             warnings
+  reexported-modules:
+      Eclips.Herald.Administration,
+      Eclips.Herald.Administration.RPC,
+      Eclips.Herald.Application.RPC,
+      Eclips.Herald.Application.Recovery,
+      Eclips.Herald.Application.Request,
+      Eclips.Herald.Application.Session,
+      Eclips.Herald.DiagnosticChecks,
+      Eclips.Herald.Diagnostics,
+      Eclips.Herald.Discovery,
+      Eclips.Herald.EffectBatch,
+      Eclips.Herald.Genesis,
+      Eclips.Herald.IdGenerator,
+      Eclips.Herald.Initialization,
+      Eclips.Herald.Input,
+      Eclips.Herald.Isolation,
+      Eclips.Herald.Join,
+      Eclips.Herald.OracleClient,
+      Eclips.Herald.OracleHealth,
+      Eclips.Herald.OracleProjection,
+      Eclips.Herald.Peer.RPC,
+      Eclips.Herald.PeerDispatch,
+      Eclips.Herald.PeerLiveness,
+      Eclips.Herald.Placement,
+      Eclips.Herald.Transition,
+      Eclips.Herald.Time,
+      Eclips.Herald.Timer
+  build-depends:
+      eclips-herald-core:kernel-internal
+  default-language:    GHC2024
+
+test-suite herald-core-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      AlignmentRecoveryProperties
+      AlignmentCoordinatorProperties
+      AlignmentGenerationProperties
+      AlignmentPlanProperties
+      LiveAlignmentPlanProperties
+      DiagnosticsProperties
+      AlignmentGenerationWorkProperties
+      AlignmentTransferWorkProperties
+      AlignmentLossProperties
+      AlignmentProtocolProperties
+      PrimordialGrantProperties
+      PrimordialTestAccess
+      ApplicationCallProperties
+      ApplicationEnvironmentProperties
+      ApplicationLabelProperties
+      ApplicationOwnerProperties
+      ApplicationPublicationProperties
+      ApplicationRecoveryProperties
+      ApplicationRetirementProperties
+      ApplicationRequestProperties
+      ApplicationRpcProperties
+      AdministrationRpcProperties
+    AdministrationCancellationProperties
+      AdministrationReceiptRetirementProperties
+      AdministrationTransitionProperties
+      ApplicationSessionProperties
+      ApplicationInitialClaimProperties
+      ApplicationValueProperties
+      BootstrapProperties
+      ControlledRemovalProperties
+      ControlledReservationProperties
+      ConfiguredProcessProperties
+      ProcessPreparationProperties
+      PreparationWorkIndexProperties
+      ProcessPreparationWorkProperties
+      ProcessPreparationReceiptRetirementProperties
+      RemoteProcessPreparationProperties
+      GenesisFixtures
+      GenesisProperties
+      GraphProperties
+      GraphAdmissionProperties
+      HeraldInvariantProperties
+      HeraldTransitionProperties
+      JoinGateProperties
+      JoinControlTailProperties
+      JoinHistoryProperties
+      JoinSourceBundleProperties
+      JoinAlignmentHistoryProperties
+      IdGeneratorProperties
+      DiscoveryProperties
+      DisappearanceAlignmentRaceProperties
+      DisappearanceEvidenceProperties
+      DisappearanceGateProperties
+      DisappearanceLiveProperties
+      DisappearanceLocalAlignmentProperties
+      DisappearanceMembershipProperties
+      DisappearanceRaceProperties
+      ForwardProperties
+      EffectivePublicationProperties
+      EnvironmentControlledProperties
+      EnvironmentPublicationProperties
+      EnvironmentSuccessorProperties
+      FailureDetectionProperties
+      InitialBootstrapProperties
+      InitialHeraldProperties
+      IsolationStateProperties
+      LabelCollectionProperties
+      LabelBarrierProperties
+      LabelPatchProperties
+      MembershipSuccessorProgressProperties
+      NewEnvironmentProperties
+      OracleAdvanceProperties
+      OracleProjectionMembershipProperties
+      ProjectionBaseAdmissionProperties
+      ProjectionBaseCodecProperties
+      ProjectionVoterFailureBaseProperties
+      ProjectionDisappearanceBaseProperties
+      ProjectionLabelBaseProperties
+      OracleVoterProjectionProperties
+      NativeVoterFailureFixtures
+      OracleClientProperties
+      ReceiptRetirementClientProperties
+      OracleHealthProperties
+      PeerStoreProperties
+      PeerStreamProperties
+      PeerReceiptRetirementProperties
+      PeerDeliveryProperties
+      PeerDeliveryCoordinatorProperties
+      PeerInputProperties
+      PeerRpcProperties
+      PeerDialIntentProperties
+      PeerLivenessProperties
+      PlacementStep7Properties
+      PreparedProperties
+      PrivateIdentityProperties
+      ProcessEndProperties
+      PublicationProperties
+      PublicationGroupsProperties
+      PublicationGroupIntegrationProperties
+      RegularDefinitionStoreRetirementProperties
+      RegularSortRetirementProperties
+      SortDefinitionProperties
+      SortDefinitionRoundTripProperties
+      Step5SemanticProperties
+      Step7PairProperties
+      Step8ApplicationGateProperties
+      Step11GeneratedIdentityProperties
+      Step15FailureVerticalProperties
+      Step15MembershipAdvanceProperties
+      Step15RetirementClosureProperties
+      Step15StructuralBaseProperties
+      Step15StructuralReleaseProperties
+      Step16RegularRetirementAcceptanceProperties
+      TerminalSourceUnionProperties
+      CompoundTerminalSourceProperties
+      TerminalSourceHoldProperties
+      StoreObservationProperties
+      StructuralPublicationProperties
+      StructuralProgressProperties
+      TopologyCertificateProperties
+      StructuralReconciliationProperties
+      StructuralSettlementProperties
+      VerifiedHeraldTransition
+      VisibilityProperties
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      cereal >=0.5.8 && <0.6,
+      containers >=0.8 && <0.9,
+      eclips-application-client >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core:kernel-internal,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12,
+      text >=2.1.3 && <2.2
+  default-language:    GHC2024
+
+test-suite herald-step16-prospective-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      DisappearanceReferenceDriver
+      Eclips.Oracle.Step16.DisappearanceReference
+      Step16ProspectiveFixtures
+      Step16ProspectiveHarness
+      Step16ProspectiveProjection
+      Step16DisappearanceProperties
+  hs-source-dirs:      test-step16-prospective
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-domain >=0.1 && <0.2,
+      eclips-herald-core:kernel-internal,
+      eclips-oracle-core >=0.1 && <0.2,
+      cryptohash-sha256 >=0.11 && <0.12,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024

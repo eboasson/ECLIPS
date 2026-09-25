@@ -1,0 +1,80 @@
+cabal-version:      3.0
+name:               eclips-hello-context
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-source-files: README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           A greeting outlives its publisher through data-space context
+description:
+    Ordinary application processes construct a context of long-lived deltas,
+    publish one greeting, and create readers after the publisher has exited.
+    The interactive tutorial supports observing context and Oracle availability
+    after a Herald crash without changing the existing API-tour fixtures.
+category:           Distributed
+
+common warnings
+  default-language: GHC2024
+  ghc-options:
+      -Wall -Wcompat -Widentities -Wincomplete-record-updates
+      -Wincomplete-uni-patterns -Wmissing-export-lists -Wredundant-constraints
+      -Wpartial-fields -Wunused-packages -Werror=incomplete-patterns
+      -Werror=missing-fields -Werror=missing-methods
+
+library applications
+  import: warnings
+  hs-source-dirs: applications
+  exposed-modules: ContextVocabulary ContextApplication ContextLauncher ContextArguments
+  build-depends:
+      base >=4.22 && <4.23,
+      containers >=0.8 && <0.9,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      process >=1.6 && <1.7,
+      text >=2.1.3 && <2.2
+
+executable eclips-hello-context
+  import: warnings
+  hs-source-dirs: app
+  main-is: Main.hs
+  ghc-options: -threaded -rtsopts -with-rtsopts=-M768m
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-hello-context:applications
+
+test-suite hello-context-properties
+  import: warnings
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Main.hs
+  ghc-options: -threaded -rtsopts -with-rtsopts=-M768m
+  build-depends:
+      base >=4.22 && <4.23,
+      containers >=0.8 && <0.9,
+      eclips-hello-context:applications,
+      tasty >=1.5 && <1.6,
+      tasty-quickcheck >=0.11 && <0.12
+
+test-suite hello-context-integration
+  import: warnings
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test-os
+  main-is: Main.hs
+  ghc-options: -threaded -rtsopts -with-rtsopts=-M768m
+  build-tool-depends:
+      eclips-deployment:eclips-herald,
+      eclips-deployment:eclips-admin,
+      eclips-hello-context:eclips-hello-context
+  build-depends:
+      base >=4.22 && <4.23,
+      directory >=1.3 && <1.4,
+      filepath >=1.5 && <1.6,
+      network >=3.2 && <3.3,
+      process >=1.6 && <1.7,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      text >=2.1.3 && <2.2

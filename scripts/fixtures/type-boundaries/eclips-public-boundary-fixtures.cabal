@@ -1,0 +1,952 @@
+cabal-version: 3.0
+name: eclips-public-boundary-fixtures
+version: 0
+build-type: Simple
+
+flag checked-genesis-record
+  manual: True
+  default: False
+
+flag applied-bootstrap-record
+  manual: True
+  default: False
+
+flag configured-process-bootstrap-record
+  manual: True
+  default: False
+
+flag primordial-definition-replica-record
+  manual: True
+  default: False
+
+flag applied-root-record
+  manual: True
+  default: False
+
+flag checked-genesis-generic
+  manual: True
+  default: False
+
+flag applied-bootstrap-generic
+  manual: True
+  default: False
+
+flag wait-id
+  manual: True
+  default: False
+
+flag reply-cursor
+  manual: True
+  default: False
+
+flag process-acceptance-position
+  manual: True
+  default: False
+
+flag publication-position
+  manual: True
+  default: False
+
+flag discovery-internal
+  manual: True
+  default: False
+
+flag discovery-state
+  manual: True
+  default: False
+
+flag peer-liveness-internal
+  manual: True
+  default: False
+
+flag peer-liveness-state
+  manual: True
+  default: False
+
+flag timer-internal
+  manual: True
+  default: False
+
+flag placement-state
+  manual: True
+  default: False
+
+flag publication-state
+  manual: True
+  default: False
+
+flag peer-publication
+  manual: True
+  default: False
+
+flag peer-stream
+  manual: True
+  default: False
+
+flag peer-stream-state
+  manual: True
+  default: False
+
+flag peer-control
+  manual: True
+  default: False
+
+flag peer-input
+  manual: True
+  default: False
+
+flag peer-placement
+  manual: True
+  default: False
+
+flag discovery-binding-generation
+  manual: True
+  default: False
+
+flag discovery-binding
+  manual: True
+  default: False
+
+flag placement-sequence
+  manual: True
+  default: False
+
+flag placement-route
+  manual: True
+  default: False
+
+flag placement-snapshot
+  manual: True
+  default: False
+
+flag mint-peer-dispatch-ticket
+  manual: True
+  default: False
+
+flag mint-peer-dispatch-attempt
+  manual: True
+  default: False
+
+flag application-client-internal
+  manual: True
+  default: False
+
+flag application-recovery-internal
+  manual: True
+  default: False
+
+flag application-rpc-internal
+  manual: True
+  default: False
+
+flag claim-is-binding
+  manual: True
+  default: False
+
+flag global-id-is-scope
+  manual: True
+  default: False
+
+flag delete-reserved-is-operation
+  manual: True
+  default: False
+
+flag runtime-internal-types
+  manual: True
+  default: False
+
+flag runtime-exact-trace
+  manual: True
+  default: False
+
+flag runtime-owner
+  manual: True
+  default: False
+
+flag runtime-recording
+  manual: True
+  default: False
+
+flag runtime-connection
+  manual: True
+  default: False
+
+flag runtime-timer
+  manual: True
+  default: False
+
+flag runtime-private-dependency
+  manual: True
+  default: False
+
+flag runtime-ref-constructor
+  manual: True
+  default: False
+
+flag application-peer-ref
+  manual: True
+  default: False
+
+flag application-administration-ref
+  manual: True
+  default: False
+
+flag administration-peer-ref
+  manual: True
+  default: False
+
+flag application-api-internal
+  manual: True
+  default: False
+
+flag peer-rpc-internal
+  manual: True
+  default: False
+
+flag tcp-internal-module
+  manual: True
+  default: False
+
+flag tcp-heartbeat
+  manual: True
+  default: False
+
+flag tcp-private-dependency
+  manual: True
+  default: False
+
+flag peer-dial-intent-constructor
+  manual: True
+  default: False
+
+flag generator-seed-constructor
+  manual: True
+  default: False
+
+flag generator-seed-bytes
+  manual: True
+  default: False
+
+flag id-generator-state
+  manual: True
+  default: False
+
+flag controlled-reservation-state
+  manual: True
+  default: False
+
+flag environment-access-constructor
+  manual: True
+  default: False
+
+flag startup-environment-coercion
+  manual: True
+  default: False
+
+flag oracle-client-internal
+  manual: True
+  default: False
+
+flag oracle-client-state
+  manual: True
+  default: False
+
+flag oracle-projection-state
+  manual: True
+  default: False
+
+flag oracle-connect-attempt-constructor
+  manual: True
+  default: False
+
+flag oracle-retry-constructor
+  manual: True
+  default: False
+
+flag oracle-binding-generation-constructor
+  manual: True
+  default: False
+
+flag oracle-binding-constructor
+  manual: True
+  default: False
+
+flag oracle-contact-set-constructor
+  manual: True
+  default: False
+
+flag dto-node-claim-is-core-claim
+  manual: True
+  default: False
+
+flag dto-entry-is-canonical-entry
+  manual: True
+  default: False
+
+flag membership-generation-id-constructor
+  manual: True
+  default: False
+
+flag failure-probe-id-constructor
+  manual: True
+  default: False
+
+flag failure-resolution-id-constructor
+  manual: True
+  default: False
+
+flag membership-generation-constructor
+  manual: True
+  default: False
+
+flag membership-generation-body-constructor
+  manual: True
+  default: False
+
+flag membership-generation-id-coercion
+  manual: True
+  default: False
+
+flag failure-probe-id-coercion
+  manual: True
+  default: False
+
+flag membership-generation-record-update
+  manual: True
+  default: False
+
+library public-internal-import
+  exposed-modules: PublicGenesisInternalImport
+  hs-source-dirs: .
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-session-owner-construction
+  exposed-modules: PublicSessionOwnerConstruction
+  hs-source-dirs: .
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-administration-owner-construction
+  exposed-modules: PublicAdministrationOwnerConstruction
+  hs-source-dirs: .
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-peer-stream-state-import
+  exposed-modules: PublicPeerStreamStateImport
+  hs-source-dirs: .
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-step7-internal-import
+  exposed-modules: PublicStep7InternalImport
+  hs-source-dirs: .
+  if flag(discovery-internal)
+    cpp-options: -DDISCOVERY_INTERNAL
+  if flag(discovery-state)
+    cpp-options: -DDISCOVERY_STATE
+  if flag(peer-liveness-internal)
+    cpp-options: -DPEER_LIVENESS_INTERNAL
+  if flag(peer-liveness-state)
+    cpp-options: -DPEER_LIVENESS_STATE
+  if flag(timer-internal)
+    cpp-options: -DTIMER_INTERNAL
+  if flag(placement-state)
+    cpp-options: -DPLACEMENT_STATE
+  if flag(publication-state)
+    cpp-options: -DPUBLICATION_STATE
+  if flag(peer-publication)
+    cpp-options: -DPEER_PUBLICATION
+  if flag(peer-stream)
+    cpp-options: -DPEER_STREAM
+  if flag(peer-stream-state)
+    cpp-options: -DPEER_STREAM_STATE
+  if flag(peer-control)
+    cpp-options: -DPEER_CONTROL
+  if flag(peer-input)
+    cpp-options: -DPEER_INPUT
+  if flag(peer-placement)
+    cpp-options: -DPEER_PLACEMENT
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-step7-opaque
+  exposed-modules: PublicStep7Opaque
+  hs-source-dirs: .
+  if flag(discovery-binding-generation)
+    cpp-options: -DDISCOVERY_BINDING_GENERATION
+  if flag(discovery-binding)
+    cpp-options: -DDISCOVERY_BINDING
+  if flag(placement-sequence)
+    cpp-options: -DPLACEMENT_SEQUENCE
+  if flag(placement-route)
+    cpp-options: -DPLACEMENT_ROUTE
+  if flag(placement-snapshot)
+    cpp-options: -DPLACEMENT_SNAPSHOT
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-peer-dispatch
+  exposed-modules: PublicPeerDispatch
+  hs-source-dirs: .
+  if flag(mint-peer-dispatch-ticket)
+    cpp-options: -DMINT_PEER_DISPATCH_TICKET
+  if flag(mint-peer-dispatch-attempt)
+    cpp-options: -DMINT_PEER_DISPATCH_ATTEMPT
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-step8-internal-import
+  exposed-modules: PublicStep8InternalImport
+  hs-source-dirs: .
+  if flag(application-client-internal)
+    cpp-options: -DAPPLICATION_CLIENT_INTERNAL
+  if flag(application-recovery-internal)
+    cpp-options: -DAPPLICATION_RECOVERY_INTERNAL
+  if flag(application-rpc-internal)
+    cpp-options: -DAPPLICATION_RPC_INTERNAL
+  build-depends:
+      base,
+      eclips-application-client,
+      eclips-herald-core
+  default-language: GHC2024
+
+library protocol-claim-separation
+  exposed-modules: ProtocolClaimSeparation
+  hs-source-dirs: .
+  if flag(claim-is-binding)
+    cpp-options: -DCLAIM_IS_BINDING
+  if flag(global-id-is-scope)
+    cpp-options: -DGLOBAL_ID_IS_SCOPE
+  if flag(delete-reserved-is-operation)
+    cpp-options: -DDELETE_RESERVED_IS_OPERATION
+  build-depends:
+      base,
+      eclips-application-types,
+      eclips-domain,
+      eclips-herald-core,
+      eclips-protocol-application
+  default-language: GHC2024
+
+library opaque-step5-identities
+  exposed-modules: OpaqueStep5Identities
+  hs-source-dirs: .
+  if flag(wait-id)
+    cpp-options: -DWAIT_ID
+  if flag(reply-cursor)
+    cpp-options: -DREPLY_CURSOR
+  if flag(process-acceptance-position)
+    cpp-options: -DPROCESS_ACCEPTANCE_POSITION
+  if flag(publication-position)
+    cpp-options: -DPUBLICATION_POSITION
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library opaque-startup
+  exposed-modules: OpaqueStartupMutation
+  hs-source-dirs: .
+  if flag(checked-genesis-record)
+    cpp-options: -DCHECKED_GENESIS_RECORD
+  if flag(applied-bootstrap-record)
+    cpp-options: -DAPPLIED_BOOTSTRAP_RECORD
+  if flag(configured-process-bootstrap-record)
+    cpp-options: -DCONFIGURED_PROCESS_BOOTSTRAP_RECORD
+  if flag(primordial-definition-replica-record)
+    cpp-options: -DPRIMORDIAL_DEFINITION_REPLICA_RECORD
+  if flag(applied-root-record)
+    cpp-options: -DAPPLIED_ROOT_RECORD
+  if flag(checked-genesis-generic)
+    cpp-options: -DCHECKED_GENESIS_GENERIC
+  if flag(applied-bootstrap-generic)
+    cpp-options: -DAPPLIED_BOOTSTRAP_GENERIC
+  build-depends:
+      base,
+      eclips-domain,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-runtime-facade
+  exposed-modules: PublicRuntimeFacade
+  hs-source-dirs: .
+  ghc-options:
+      -Wall
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+  build-depends:
+      base,
+      bytestring,
+      containers,
+      eclips-herald-core,
+      eclips-herald-runtime,
+      eclips-protocol-application
+  default-language: GHC2024
+
+library public-step15-facade
+  exposed-modules: PublicStep15Facade
+  hs-source-dirs: .
+  ghc-options:
+      -Wall
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+  build-depends:
+      base,
+      eclips-application-client,
+      eclips-domain,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-membership-opaque
+  exposed-modules: PublicMembershipOpaque
+  hs-source-dirs: .
+  ghc-options:
+      -Wall
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+  if flag(membership-generation-id-constructor)
+    cpp-options: -DMEMBERSHIP_GENERATION_ID_CONSTRUCTOR
+  if flag(failure-probe-id-constructor)
+    cpp-options: -DFAILURE_PROBE_ID_CONSTRUCTOR
+  if flag(failure-resolution-id-constructor)
+    cpp-options: -DFAILURE_RESOLUTION_ID_CONSTRUCTOR
+  if flag(membership-generation-constructor)
+    cpp-options: -DMEMBERSHIP_GENERATION_CONSTRUCTOR
+  if flag(membership-generation-body-constructor)
+    cpp-options: -DMEMBERSHIP_GENERATION_BODY_CONSTRUCTOR
+  if flag(membership-generation-id-coercion)
+    cpp-options: -DMEMBERSHIP_GENERATION_ID_COERCION
+  if flag(failure-probe-id-coercion)
+    cpp-options: -DFAILURE_PROBE_ID_COERCION
+  if flag(membership-generation-record-update)
+    cpp-options: -DMEMBERSHIP_GENERATION_RECORD_UPDATE
+  build-depends:
+      base,
+      bytestring,
+      eclips-domain
+  default-language: GHC2024
+
+library public-runtime-internal-import
+  exposed-modules: PublicRuntimeInternalImport
+  hs-source-dirs: .
+  if flag(runtime-internal-types)
+    cpp-options: -DRUNTIME_INTERNAL_TYPES
+  if flag(runtime-exact-trace)
+    cpp-options: -DRUNTIME_EXACT_TRACE
+  if flag(runtime-owner)
+    cpp-options: -DRUNTIME_OWNER
+  if flag(runtime-recording)
+    cpp-options: -DRUNTIME_RECORDING
+  if flag(runtime-connection)
+    cpp-options: -DRUNTIME_CONNECTION
+  if flag(runtime-timer)
+    cpp-options: -DRUNTIME_TIMER
+  if flag(runtime-private-dependency)
+    cpp-options: -DRUNTIME_PRIVATE_DEPENDENCY
+    build-depends: eclips-herald-runtime:runtime-internal
+  build-depends:
+      base,
+      eclips-herald-runtime
+  default-language: GHC2024
+
+library public-runtime-reference
+  exposed-modules: PublicRuntimeReference
+  hs-source-dirs: .
+  if flag(runtime-ref-constructor)
+    cpp-options: -DRUNTIME_REF_CONSTRUCTOR
+  if flag(application-peer-ref)
+    cpp-options: -DAPPLICATION_PEER_REF
+  if flag(application-administration-ref)
+    cpp-options: -DAPPLICATION_ADMINISTRATION_REF
+  if flag(administration-peer-ref)
+    cpp-options: -DADMINISTRATION_PEER_REF
+  build-depends:
+      base,
+      eclips-herald-runtime
+  default-language: GHC2024
+
+library public-step10-facades
+  exposed-modules:
+      PublicApplicationFacade
+      PublicPeerRpcFacade
+      PublicTcpFacade
+  hs-source-dirs: .
+  build-depends:
+      base,
+      eclips-application-api,
+      eclips-application-types,
+      eclips-domain,
+      eclips-herald-core,
+      eclips-herald-runtime:tcp,
+      eclips-protocol-peer,
+      text
+  default-language: GHC2024
+
+library public-step10-internal-import
+  exposed-modules: PublicStep10InternalImport
+  hs-source-dirs: .
+  if flag(application-api-internal)
+    cpp-options: -DAPPLICATION_API_INTERNAL
+  if flag(peer-rpc-internal)
+    cpp-options: -DPEER_RPC_INTERNAL
+  if flag(tcp-internal-module)
+    cpp-options: -DTCP_INTERNAL_MODULE
+  if flag(tcp-heartbeat)
+    cpp-options: -DTCP_HEARTBEAT
+  if flag(tcp-private-dependency)
+    cpp-options: -DTCP_PRIVATE_DEPENDENCY
+    build-depends: eclips-herald-runtime:tcp-internal
+  build-depends:
+      base,
+      eclips-application-api,
+      eclips-herald-core,
+      eclips-herald-runtime:tcp
+  default-language: GHC2024
+
+library public-step10-opaque
+  exposed-modules: PublicStep10Opaque
+  hs-source-dirs: .
+  if flag(peer-dial-intent-constructor)
+    cpp-options: -DPEER_DIAL_INTENT_CONSTRUCTOR
+  build-depends:
+      base,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-step11-opaque
+  exposed-modules: PublicStep11Opaque
+  hs-source-dirs: .
+  if flag(generator-seed-constructor)
+    cpp-options: -DGENERATOR_SEED_CONSTRUCTOR
+  if flag(generator-seed-bytes)
+    cpp-options: -DGENERATOR_SEED_BYTES
+  if flag(id-generator-state)
+    cpp-options: -DID_GENERATOR_STATE
+  if flag(controlled-reservation-state)
+    cpp-options: -DCONTROLLED_RESERVATION_STATE
+  if flag(environment-access-constructor)
+    cpp-options: -DENVIRONMENT_ACCESS_CONSTRUCTOR
+  if flag(startup-environment-coercion)
+    cpp-options: -DSTARTUP_ENVIRONMENT_COERCION
+  build-depends:
+      base,
+      eclips-application-types,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-step11-facade
+  exposed-modules: PublicStep11Facade
+  hs-source-dirs: .
+  ghc-options:
+      -Wall
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+  build-depends:
+      base,
+      bytestring,
+      containers,
+      eclips-application-types,
+      eclips-herald-core
+  default-language: GHC2024
+
+library public-admin-protocol
+  exposed-modules: PublicAdminProtocol
+  hs-source-dirs: .
+  ghc-options:
+      -Wall
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+  build-depends:
+      base,
+      eclips-protocol-admin
+  default-language: GHC2024
+
+library public-step12-opaque
+  exposed-modules: PublicStep12Opaque
+  hs-source-dirs: .
+  if flag(oracle-client-internal)
+    cpp-options: -DORACLE_CLIENT_INTERNAL
+  if flag(oracle-client-state)
+    cpp-options: -DORACLE_CLIENT_STATE
+  if flag(oracle-projection-state)
+    cpp-options: -DORACLE_PROJECTION_STATE
+  if flag(oracle-connect-attempt-constructor)
+    cpp-options: -DORACLE_CONNECT_ATTEMPT_CONSTRUCTOR
+  if flag(oracle-retry-constructor)
+    cpp-options: -DORACLE_RETRY_CONSTRUCTOR
+  if flag(oracle-binding-generation-constructor)
+    cpp-options: -DORACLE_BINDING_GENERATION_CONSTRUCTOR
+  if flag(oracle-binding-constructor)
+    cpp-options: -DORACLE_BINDING_CONSTRUCTOR
+  if flag(oracle-contact-set-constructor)
+    cpp-options: -DORACLE_CONTACT_SET_CONSTRUCTOR
+  if flag(dto-node-claim-is-core-claim)
+    cpp-options: -DDTO_NODE_CLAIM_IS_CORE_CLAIM
+  if flag(dto-entry-is-canonical-entry)
+    cpp-options: -DDTO_ENTRY_IS_CANONICAL_ENTRY
+  build-depends:
+      base,
+      eclips-herald-core,
+      eclips-oracle-core,
+      eclips-protocol-oracle
+  default-language: GHC2024
+
+flag primordial-selection-constructor
+  manual: True
+  default: False
+
+flag primordial-access-constructor
+  manual: True
+  default: False
+
+flag primordial-selection-record
+  manual: True
+  default: False
+
+flag primordial-access-record
+  manual: True
+  default: False
+
+flag primordial-selection-access-coercion
+  manual: True
+  default: False
+
+flag primordial-grant-internal-import
+  manual: True
+  default: False
+
+library public-primordial-opaque
+  exposed-modules: PublicPrimordialOpaque
+  hs-source-dirs: .
+  if flag(primordial-selection-constructor)
+    cpp-options: -DPRIMORDIAL_SELECTION_CONSTRUCTOR
+  if flag(primordial-access-constructor)
+    cpp-options: -DPRIMORDIAL_ACCESS_CONSTRUCTOR
+  if flag(primordial-selection-record)
+    cpp-options: -DPRIMORDIAL_SELECTION_RECORD
+  if flag(primordial-access-record)
+    cpp-options: -DPRIMORDIAL_ACCESS_RECORD
+  if flag(primordial-selection-access-coercion)
+    cpp-options: -DPRIMORDIAL_SELECTION_ACCESS_COERCION
+  if flag(primordial-grant-internal-import)
+    cpp-options: -DPRIMORDIAL_GRANT_INTERNAL_IMPORT
+  build-depends:
+      base,
+      containers,
+      eclips-application-types,
+      eclips-herald-core
+  default-language: GHC2024
+
+flag lifecycle-descriptor-constructor
+  manual: True
+  default: False
+
+flag lifecycle-claim-constructor
+  manual: True
+  default: False
+
+flag lifecycle-preparation-constructor
+  manual: True
+  default: False
+
+flag lifecycle-request-constructor
+  manual: True
+  default: False
+
+flag lifecycle-child-constructor
+  manual: True
+  default: False
+
+flag lifecycle-descriptor-record
+  manual: True
+  default: False
+
+flag lifecycle-correlation-coercion
+  manual: True
+  default: False
+
+flag lifecycle-owner-import
+  manual: True
+  default: False
+
+library public-lifecycle-opaque
+  exposed-modules: PublicLifecycleOpaque
+  hs-source-dirs: .
+  if flag(lifecycle-descriptor-constructor)
+    cpp-options: -DLIFECYCLE_DESCRIPTOR_CONSTRUCTOR
+  if flag(lifecycle-claim-constructor)
+    cpp-options: -DLIFECYCLE_CLAIM_CONSTRUCTOR
+  if flag(lifecycle-preparation-constructor)
+    cpp-options: -DLIFECYCLE_PREPARATION_CONSTRUCTOR
+  if flag(lifecycle-request-constructor)
+    cpp-options: -DLIFECYCLE_REQUEST_CONSTRUCTOR
+  if flag(lifecycle-child-constructor)
+    cpp-options: -DLIFECYCLE_CHILD_CONSTRUCTOR
+  if flag(lifecycle-descriptor-record)
+    cpp-options: -DLIFECYCLE_DESCRIPTOR_RECORD
+  if flag(lifecycle-correlation-coercion)
+    cpp-options: -DLIFECYCLE_CORRELATION_COERCION
+  if flag(lifecycle-owner-import)
+    cpp-options: -DLIFECYCLE_OWNER_IMPORT
+  build-depends:
+      base,
+      bytestring,
+      eclips-application-types,
+      eclips-herald-core
+  default-language: GHC2024
+
+flag typed-herald-constructor
+  manual: True
+  default: False
+
+flag typed-call-constructor
+  manual: True
+  default: False
+
+flag typed-lifecycle-constructor
+  manual: True
+  default: False
+
+flag typed-herald-record
+  manual: True
+  default: False
+
+flag typed-call-record
+  manual: True
+  default: False
+
+flag typed-lifecycle-record
+  manual: True
+  default: False
+
+flag typed-result-mismatch
+  manual: True
+  default: False
+
+flag typed-result-coercion
+  manual: True
+  default: False
+
+flag typed-internal-import
+  manual: True
+  default: False
+
+library public-typed-application-opaque
+  exposed-modules: PublicTypedApplicationOpaque
+  hs-source-dirs: .
+  if flag(typed-herald-constructor)
+    cpp-options: -DTYPED_HERALD_CONSTRUCTOR
+  if flag(typed-call-constructor)
+    cpp-options: -DTYPED_CALL_CONSTRUCTOR
+  if flag(typed-lifecycle-constructor)
+    cpp-options: -DTYPED_LIFECYCLE_CONSTRUCTOR
+  if flag(typed-herald-record)
+    cpp-options: -DTYPED_HERALD_RECORD
+  if flag(typed-call-record)
+    cpp-options: -DTYPED_CALL_RECORD
+  if flag(typed-lifecycle-record)
+    cpp-options: -DTYPED_LIFECYCLE_RECORD
+  if flag(typed-result-mismatch)
+    cpp-options: -DTYPED_RESULT_MISMATCH
+  if flag(typed-result-coercion)
+    cpp-options: -DTYPED_RESULT_COERCION
+  if flag(typed-internal-import)
+    cpp-options: -DTYPED_INTERNAL_IMPORT
+  build-depends:
+      base,
+      eclips-application-api,
+      eclips-application-types
+  default-language: GHC2024
+
+flag deployment-endpoint-constructor
+  manual: True
+  default: False
+
+flag deployment-planes-constructor
+  manual: True
+  default: False
+
+flag deployment-checked-constructor
+  manual: True
+  default: False
+
+flag deployment-resident-constructor
+  manual: True
+  default: False
+
+flag deployment-runtime-constructor
+  manual: True
+  default: False
+
+flag deployment-endpoint-record
+  manual: True
+  default: False
+
+flag deployment-planes-record
+  manual: True
+  default: False
+
+flag deployment-checked-record
+  manual: True
+  default: False
+
+flag deployment-resident-record
+  manual: True
+  default: False
+
+flag deployment-runtime-record
+  manual: True
+  default: False
+
+library public-deployment-opaque
+  exposed-modules: PublicDeploymentOpaque
+  hs-source-dirs: .
+  if flag(deployment-endpoint-constructor)
+    cpp-options: -DDEPLOYMENT_ENDPOINT_CONSTRUCTOR
+  if flag(deployment-planes-constructor)
+    cpp-options: -DDEPLOYMENT_PLANES_CONSTRUCTOR
+  if flag(deployment-checked-constructor)
+    cpp-options: -DDEPLOYMENT_CHECKED_CONSTRUCTOR
+  if flag(deployment-resident-constructor)
+    cpp-options: -DDEPLOYMENT_RESIDENT_CONSTRUCTOR
+  if flag(deployment-runtime-constructor)
+    cpp-options: -DDEPLOYMENT_RUNTIME_CONSTRUCTOR
+  if flag(deployment-endpoint-record)
+    cpp-options: -DDEPLOYMENT_ENDPOINT_RECORD
+  if flag(deployment-planes-record)
+    cpp-options: -DDEPLOYMENT_PLANES_RECORD
+  if flag(deployment-checked-record)
+    cpp-options: -DDEPLOYMENT_CHECKED_RECORD
+  if flag(deployment-resident-record)
+    cpp-options: -DDEPLOYMENT_RESIDENT_RECORD
+  if flag(deployment-runtime-record)
+    cpp-options: -DDEPLOYMENT_RUNTIME_RECORD
+  build-depends:
+      base,
+      eclips-deployment
+  default-language: GHC2024
+
+library public-deployment-facade
+  exposed-modules: PublicDeploymentFacade
+  hs-source-dirs: .
+  build-depends:
+      base,
+      bytestring,
+      eclips-deployment,
+      text
+  default-language: GHC2024

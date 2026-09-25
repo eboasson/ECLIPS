@@ -1,0 +1,133 @@
+cabal-version:      3.0
+name:               eclips-hello-world
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-source-files:
+    README.md
+    hie.yaml
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Small self-contained ECLIPS application example
+description:
+    Provides a singleton founder tour and separate ordinary launcher, publisher,
+    and reader executables. Exercises all eight application operations through
+    typed results, prepares and labels private child environments, exchanges
+    greetings through the data space, and joins every process scope.
+category:           Distributed
+
+common hello-world-common
+  other-modules:
+      FounderConfiguration
+      FounderDeployment
+      HelloApplication
+      HelloCommon
+      HelloDeployment
+  hs-source-dirs:   . applications
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+      -threaded
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime >=0.1 && <0.2,
+      eclips-herald-runtime:tcp,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      entropy >=0.4.1.11 && <0.5,
+      stm >=2.5 && <2.6,
+      text >=2.1.3 && <2.2
+  default-language: GHC2024
+
+executable eclips-hello-world
+  import:           hello-world-common
+  ghc-options: -rtsopts -with-rtsopts=-M768m
+  main-is:          Main.hs
+
+test-suite hello-world-integration
+  import:           hello-world-common
+  ghc-options: -rtsopts -with-rtsopts=-M768m
+  other-modules:
+      FounderProperties
+      PreparedChildProperties
+  build-depends:
+      QuickCheck >=2.16 && <2.19,
+      binary >=0.8.9 && <0.9,
+      directory >=1.3 && <1.4,
+      process >=1.6 && <1.7
+  type:             exitcode-stdio-1.0
+  main-is:          TestMain.hs
+
+-- Ordinary applications have no access to deployment or kernel packages.
+common ordinary-application
+  hs-source-dirs: applications
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wredundant-constraints -Wpartial-fields -Wunused-packages -Werror=incomplete-patterns -Werror=missing-fields -Werror=missing-methods
+  default-language: GHC2024
+
+library applications
+  import: ordinary-application
+  exposed-modules:
+      HelloArguments
+      HelloCommon
+      HelloLauncher
+      HelloPublisher
+      HelloReader
+  build-depends:
+      base >=4.22 && <4.23,
+      containers >=0.8 && <0.9,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      process >=1.6 && <1.7,
+      text >=2.1.3 && <2.2
+
+executable eclips-hello-launcher
+  hs-source-dirs: launcher
+  main-is: Main.hs
+  ghc-options: -Wall -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-M768m
+  default-language: GHC2024
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-hello-world:applications,
+      filepath >=1.5 && <1.6,
+      text >=2.1.3 && <2.2
+
+executable eclips-hello-publisher
+  hs-source-dirs: publisher
+  main-is: Main.hs
+  ghc-options: -Wall -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-M768m
+  default-language: GHC2024
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-hello-world:applications,
+      text >=2.1.3 && <2.2
+
+executable eclips-hello-reader
+  hs-source-dirs: reader
+  main-is: Main.hs
+  ghc-options: -Wall -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-M768m
+  default-language: GHC2024
+  build-depends:
+      base >=4.22 && <4.23,
+      eclips-hello-world:applications,
+      text >=2.1.3 && <2.2

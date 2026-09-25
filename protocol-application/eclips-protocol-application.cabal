@@ -1,0 +1,74 @@
+cabal-version:      3.0
+name:               eclips-protocol-application
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Pure application protocol and framing for ECLIPS
+description:
+    Structurally checked claims, current-build generic application DTO
+    serialization, and a pure prefix-preserving incremental EAPP frame decoder.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library
+  import:             warnings
+  exposed-modules:
+      Eclips.Protocol.Application.Codec
+      Eclips.Protocol.Application.Frame
+      Eclips.Protocol.Application.Types
+  hs-source-dirs:      src
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-protocol-frame >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      text >=2.1.3 && <2.2
+  default-language:    GHC2024
+
+test-suite protocol-application-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      CodecProperties
+      FrameProperties
+      TestFixtures
+      TypesProperties
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-protocol-application,
+      eclips-public-types >=0.1 && <0.2,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024

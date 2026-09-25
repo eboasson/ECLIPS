@@ -1,0 +1,176 @@
+cabal-version:      3.0
+name:               eclips-oracle-runtime
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Scoped Oracle and reconfigurable Raft runtime
+description:
+    A finite-run direct-IO and STM shell for the pure Oracle and Raft kernels.
+    Each kernel and the contiguous watch ledger have separate serialized
+    owners; current EORC and ERFT TCP composition remains at this boundary.
+category:           Distributed
+
+common warnings
+  default-extensions:
+      OverloadedRecordDot
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library socket-internal
+  import:             warnings
+  visibility:         private
+  exposed-modules:
+      Eclips.Oracle.Runtime.Internal.TCP.Socket
+  hs-source-dirs:      socket-internal
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6
+  default-language:    GHC2024
+
+library
+  import:             warnings
+  exposed-modules:
+      Eclips.Oracle.Runtime
+      Eclips.Oracle.Runtime.TCP
+      Eclips.Oracle.Runtime.ConformanceClient
+  other-modules:
+      Eclips.Oracle.Runtime.Internal.Adapter
+      Eclips.Oracle.Runtime.Internal.Connection
+      Eclips.Oracle.Runtime.Internal.Checkpoint
+      Eclips.Oracle.Runtime.Internal.CheckpointCache
+      Eclips.Oracle.Runtime.Internal.ConnectedWait
+      Eclips.Oracle.Runtime.Internal.Coordination
+      Eclips.Oracle.Runtime.Internal.Dispatcher
+      Eclips.Oracle.Runtime.Internal.Entropy
+      Eclips.Oracle.Runtime.Internal.Hello
+      Eclips.Oracle.Runtime.Internal.LeaseQueue
+      Eclips.Oracle.Runtime.Internal.OracleOwner
+      Eclips.Oracle.Runtime.Internal.RaftOwner
+      Eclips.Oracle.Runtime.Internal.Recording
+      Eclips.Oracle.Runtime.Internal.ReplicaRegistration
+      Eclips.Oracle.Runtime.Internal.RetainedRequest
+      Eclips.Oracle.Runtime.Internal.Scope
+      Eclips.Oracle.Runtime.Internal.Submission
+      Eclips.Oracle.Runtime.Internal.StatusProjection
+      Eclips.Oracle.Runtime.Internal.Timer
+      Eclips.Oracle.Runtime.Internal.Types
+      Eclips.Oracle.Runtime.Internal.WatchAvailability
+      Eclips.Oracle.Runtime.Internal.WatchLedgerOwner
+      Eclips.Oracle.Runtime.Internal.WatchServe
+      Eclips.Oracle.Runtime.Internal.WatchWorker
+      Eclips.Oracle.Runtime.Internal.WorkCounts
+      Eclips.Oracle.Runtime.Internal.TCP.Oracle
+      Eclips.Oracle.Runtime.Internal.TCP.ManagedWorkers
+      Eclips.Oracle.Runtime.Internal.TCP.Raft
+      Eclips.Oracle.Runtime.Internal.TCP.Retirement
+      Eclips.Oracle.Runtime.Internal.TCP.Retry
+      Eclips.Oracle.Runtime.Internal.TCP.Server
+  hs-source-dirs:      src internal
+  ghc-options:
+      -threaded
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-domain >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime:socket-internal,
+      eclips-protocol-oracle >=0.1 && <0.2,
+      eclips-protocol-raft >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      entropy >=0.4.1.11 && <0.5,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      text >=2.1 && <2.2
+  default-language:    GHC2024
+
+test-suite oracle-runtime-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      AdapterRetentionProperties
+      CheckpointCacheProperties
+      ClusterProperties
+      ConformanceClientProperties
+      ConnectedWaitProperties
+      CoordinationProperties
+      HealthRuntimeProperties
+      Eclips.Oracle.Runtime.Internal.Adapter
+      Eclips.Oracle.Runtime.Internal.Checkpoint
+      Eclips.Oracle.Runtime.Internal.CheckpointCache
+      Eclips.Oracle.Runtime.Internal.Coordination
+      Eclips.Oracle.Runtime.Internal.Scope
+      Eclips.Oracle.Runtime.Internal.Types
+      Eclips.Oracle.Runtime.Internal.ConnectedWait
+      Eclips.Oracle.Runtime.Internal.Hello
+      Eclips.Oracle.Runtime.Internal.LeaseQueue
+      Eclips.Oracle.Runtime.Internal.RetainedRequest
+      Eclips.Oracle.Runtime.Internal.ReplicaRegistration
+      Eclips.Oracle.Runtime.Internal.StatusProjection
+      Eclips.Oracle.Runtime.Internal.Submission
+      Eclips.Oracle.Runtime.Internal.TCP.ManagedWorkers
+      Eclips.Oracle.Runtime.Internal.TCP.Retirement
+      Eclips.Oracle.Runtime.Internal.TCP.Retry
+      Eclips.Oracle.Runtime.Internal.WatchAvailability
+      Eclips.Oracle.Runtime.Internal.WatchServe
+      Eclips.Oracle.Runtime.Internal.WatchWorker
+      Eclips.Oracle.Runtime.Internal.WorkCounts
+      LeaseQueueProperties
+      RaftAdmissionProperties
+      RaftRetryProperties
+      RecordingProperties
+      RetainedRequestProperties
+      RuntimeProperties
+      SocketProgressProperties
+      SocketRetirementProperties
+      TestFixtures
+      WatchServeProperties
+      WatchWorkerProperties
+      WorkCountsProperties
+      VoterRuntimeProperties
+      FailureRuntimeProperties
+  hs-source-dirs:      test internal
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-domain >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime,
+      eclips-oracle-runtime:socket-internal,
+      eclips-protocol-oracle >=0.1 && <0.2,
+      eclips-protocol-raft >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024

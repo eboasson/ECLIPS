@@ -1,0 +1,106 @@
+cabal-version:      3.0
+name:               eclips-application-api
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Scoped TCP application facade for ECLIPS
+description:
+    Typed direct and advanced calls around the pure application client owner.
+    An opaque Herald handle owns one scoped session, portable connection
+    descriptors, exact initial-claim and reconnect ownership, and checked
+    heartbeat and recovery timing. Lifecycle requests remain separate from
+    the closed eight-operation data-space vocabulary.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library physical-internal
+  import:             warnings
+  visibility:         private
+  exposed-modules:
+      Eclips.Application.Runtime.Internal.Physical
+  hs-source-dirs:      internal
+  build-depends:
+      base >=4.22 && <4.23
+  default-language:    GHC2024
+
+library
+  import:             warnings
+  exposed-modules:
+      Eclips.Application
+      Eclips.Application.Advanced
+      Eclips.Application.Connection
+      Eclips.Application.Runtime
+      Eclips.Application.Typed
+      Eclips.Application.Typed.Advanced
+  other-modules:
+      Eclips.Application.Internal
+      Eclips.Application.Typed.Internal
+      Eclips.Application.Runtime.Internal.Connection
+      Eclips.Application.Runtime.Internal.Owner
+      Eclips.Application.Runtime.Internal.Socket
+      Eclips.Application.Runtime.Internal.Types
+  hs-source-dirs:      src
+  ghc-options:
+      -threaded
+  build-depends:
+      base >=4.22 && <4.23,
+      binary >=0.8.9 && <0.9,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-api:physical-internal,
+      eclips-application-client >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      entropy >=0.4.1.11 && <0.5,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      text >=2.1 && <2.2
+  default-language:    GHC2024
+
+test-suite application-api-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      ConnectionProperties
+      RuntimeProperties
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-api,
+      eclips-application-api:physical-internal,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12,
+      text >=2.1 && <2.2
+  default-language:    GHC2024

@@ -1,0 +1,451 @@
+cabal-version:      3.0
+name:               eclips-herald-runtime
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Typed Herald runtime with application, peer, and Oracle TCP
+description:
+    A scoped STM runtime that exclusively owns one pure Herald kernel. It
+    provides typed application, administration, peer, and outbound Oracle lanes
+    plus a separate named component that composes them with EAPP, EPRP, and EORC
+    TCP transport.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library runtime-internal
+  import:             warnings
+  visibility:         private
+  exposed-modules:
+      Eclips.Herald.Runtime
+      Eclips.Herald.Runtime.Connection
+      Eclips.Herald.Runtime.Handler
+      Eclips.Herald.Runtime.Ingress
+      Eclips.Herald.Runtime.Oracle
+      Eclips.Herald.Runtime.Trace
+      Eclips.Herald.Runtime.Internal.Arbiter
+      Eclips.Herald.Runtime.Internal.Connection
+      Eclips.Herald.Runtime.Internal.Conformance
+      Eclips.Herald.Runtime.Internal.Coordination
+      Eclips.Herald.Runtime.Internal.GeneratorSeed
+      Eclips.Herald.Runtime.Internal.Owner
+      Eclips.Herald.Runtime.Internal.Recording
+      Eclips.Herald.Runtime.Internal.Timer
+      Eclips.Herald.Runtime.Internal.Trace
+      Eclips.Herald.Runtime.Internal.Types
+  hs-source-dirs:      src internal
+  ghc-options:
+      -threaded
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-oracle >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      entropy >=0.4.1.11 && <0.5,
+      stm >=2.5.3 && <2.6
+  default-language:    GHC2024
+
+library
+  import:             warnings
+  reexported-modules:
+      Eclips.Herald.Runtime,
+      Eclips.Herald.Runtime.Connection,
+      Eclips.Herald.Runtime.Handler,
+      Eclips.Herald.Runtime.Ingress,
+      Eclips.Herald.Runtime.Oracle,
+      Eclips.Herald.Runtime.Trace
+  build-depends:
+      eclips-herald-runtime:runtime-internal
+  default-language:    GHC2024
+
+library tcp-internal
+  import:             warnings
+  visibility:         private
+  exposed-modules:
+      Eclips.Herald.Runtime.TCP.Internal.Administration
+      Eclips.Herald.Runtime.TCP.Internal.Application
+      Eclips.Herald.Runtime.TCP.Internal.Discovery
+      Eclips.Herald.Runtime.TCP.Internal.Facade
+      Eclips.Herald.Runtime.TCP.Internal.Heartbeat
+      Eclips.Herald.Runtime.TCP.Internal.Oracle
+      Eclips.Herald.Runtime.TCP.Internal.OracleHealth
+      Eclips.Herald.Runtime.TCP.Internal.Peer
+      Eclips.Herald.Runtime.TCP.Internal.Scope
+      Eclips.Herald.Runtime.TCP.Internal.Socket
+      Eclips.Herald.Runtime.TCP.Internal.Types
+  hs-source-dirs:      tcp-internal
+  ghc-options:
+      -threaded
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-oracle >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-protocol-frame >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      text >=2.1 && <2.2
+  default-language:    GHC2024
+
+library tcp
+  import:             warnings
+  visibility:         public
+  exposed-modules:
+      Eclips.Herald.Runtime.TCP
+  hs-source-dirs:      tcp
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-runtime,
+      eclips-herald-runtime:tcp-internal,
+      text >=2.1 && <2.2
+  default-language:    GHC2024
+
+test-suite herald-runtime-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      PeerEvidence
+      AdministrationRuntimeProperties
+      ArbiterProperties
+      ConnectionProperties
+      ConformanceProperties
+      CoordinationProperties
+      PairRuntimeFixtures
+      PeerDialProperties
+      RecordingProperties
+      RuntimeClosureProperties
+      RuntimeFixtures
+      RuntimeHookProperties
+      RuntimeProperties
+      Step9ComposedProperties
+      TraceProperties
+      TransferProperties
+      VerificationClosureProperties
+  hs-source-dirs:      test test-support
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-client >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime:runtime-internal,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024
+
+test-suite herald-slice1-tcp-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      PeerEvidence
+      AdministrationTcpProperties
+      ApplicationTcpProperties
+      HeartbeatTcpProperties
+      PairRuntimeFixtures
+      PeerManagerTcpProperties
+      PeerTcpProperties
+      RuntimeFixtures
+      SocketProgressProperties
+      ThreeHeraldFixtures
+      ThreeHeraldTcpProperties
+  hs-source-dirs:      test-tcp test test-support
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime:runtime-internal,
+      eclips-herald-runtime:tcp,
+      eclips-herald-runtime:tcp-internal,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024
+
+test-suite herald-step12-control-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      PeerEvidence
+      OracleSubmissionTrackerProperties
+      OracleHealthTcpProperties
+      OracleReplicaWaitProperties
+      RuntimeFixtures
+      Step12ControlProperties
+      Step12Fixtures
+  hs-source-dirs:      test-step12 test test-support
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-domain >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime:runtime-internal,
+      eclips-herald-runtime:tcp,
+      eclips-herald-runtime:tcp-internal,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024
+
+test-suite herald-step14-label-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      PeerEvidence
+      ApplicationTerminalTcpProperties
+      Step12Fixtures
+      Step14AdministrationClient
+      Step14AdministrationProperties
+      Step14AlignmentLossProperties
+      Step14ApplicationReplyLossProperties
+      Step14ApplicationWorkflow
+      Step14DeferredEndProperties
+      Step14Fixtures
+      Step14LabelProperties
+      Step14LifecycleProperties
+      Step14PreparedReleaseProperties
+      Step14PreparationReadinessProperties
+      Step14TargetEndProperties
+  hs-source-dirs:      test-step14 test-step12 test-support
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime:runtime-internal,
+      eclips-herald-runtime:tcp,
+      eclips-herald-runtime:tcp-internal,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime >=0.1 && <0.2,
+      eclips-protocol-admin >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-public-types >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      containers >=0.8 && <0.9,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      text >=2.1.3 && <2.2
+  default-language:    GHC2024
+
+test-suite herald-step15-crash-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      PeerEvidence
+      Step12Fixtures
+      Step15Applications
+      Step15ApplicationLossProperties
+      Step15Configuration
+      Step15CrashProperties
+      Step15Fixtures
+      Step15FoundationProperties
+      Step15Genesis
+      Step15TerminalRepairProperties
+      RepeatedRetirementProperties
+      Step15WorkCounts
+  hs-source-dirs:      test-step15 test-step12 test-support
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime:runtime-internal,
+      eclips-herald-runtime:tcp,
+      eclips-herald-runtime:tcp-internal,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11
+  default-language:    GHC2024
+
+test-suite herald-step16-failure-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      PeerEvidence
+      Step12Fixtures
+      Step14AlignmentLossProperties
+      Step14Fixtures
+      Step15Applications
+      Step15Configuration
+      Step15CrashProperties
+      Step15Fixtures
+      Step15Genesis
+      Step15WorkCounts
+      Step16MarkerRepairProperties
+      Step16PeerWave
+      Step16TourFixtures
+      Step16TourProperties
+  hs-source-dirs:      test-step16 test-step15 test-step14 test-step12 test-support
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-application-api >=0.1 && <0.2,
+      eclips-application-types >=0.1 && <0.2,
+      eclips-domain >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime:runtime-internal,
+      eclips-herald-runtime:tcp,
+      eclips-herald-runtime:tcp-internal,
+      eclips-oracle-core >=0.1 && <0.2,
+      eclips-oracle-runtime >=0.1 && <0.2,
+      eclips-protocol-application >=0.1 && <0.2,
+      eclips-protocol-peer >=0.1 && <0.2,
+      eclips-raft-core >=0.1 && <0.2,
+      network >=3.2.8 && <3.3,
+      stm >=2.5.3 && <2.6,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      text >=2.1.3 && <2.2
+  default-language:    GHC2024
+
+executable eclips-herald-slice1-node
+  import:             warnings
+  main-is:            Main.hs
+  other-modules:
+      ThreeHeraldFixtures
+  hs-source-dirs:      node test-tcp
+  ghc-options:
+      -rtsopts
+      -with-rtsopts=-M768m
+      -threaded
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      eclips-domain >=0.1 && <0.2,
+      eclips-herald-core >=0.1 && <0.2,
+      eclips-herald-runtime,
+      eclips-herald-runtime:tcp,
+      eclips-herald-runtime:tcp-internal,
+      stm >=2.5.3 && <2.6,
+      text >=2.1 && <2.2
+  default-language:    GHC2024
+
+test-suite herald-slice1-process-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  hs-source-dirs:      test-process
+  ghc-options:
+      -rtsopts
+      -with-rtsopts=-M768m
+      -threaded
+  build-tool-depends:
+      eclips-herald-runtime:eclips-herald-slice1-node
+  build-depends:
+      base >=4.22 && <4.23,
+      directory >=1.3 && <1.4,
+      process >=1.6 && <1.7,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11
+  default-language:    GHC2024

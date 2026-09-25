@@ -1,0 +1,3 @@
+packages: ./eclips-type-boundaries.cabal
+
+tests: True

@@ -1,0 +1,112 @@
+cabal-version:      3.0
+name:               eclips-domain
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Pure semantic domain for the networked ECLIPS prototype
+description:
+    Checked values and queries, canonical sort descriptors, publication ordering,
+    frozen routes, label/barrier evidence, explicit process-lifecycle vocabulary,
+    and delta-store transitions for profile 0.1. This package is pure and has no
+    dependency on the quarantined deterministic simulator.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library
+  import:             warnings
+  exposed-modules:
+      Eclips.Domain.Alignment
+      Eclips.Domain.Context
+      Eclips.Domain.Disappearance
+      Eclips.Domain.Environment
+      Eclips.Domain.Graph
+      Eclips.Domain.Identity
+      Eclips.Domain.Label
+      Eclips.Domain.MemberSet
+      Eclips.Domain.Membership
+      Eclips.Domain.ProcessLifecycle
+      Eclips.Domain.ProcessStart
+      Eclips.Domain.Publication
+      Eclips.Domain.Query
+      Eclips.Domain.Route
+      Eclips.Domain.Startup
+      Eclips.Domain.Sort.Canonical
+      Eclips.Domain.Sort.Descriptor
+      Eclips.Domain.Sort.Profile
+      Eclips.Domain.SortOccurrence
+      Eclips.Domain.Store
+      Eclips.Domain.Structural
+      Eclips.Domain.StructuralConsequence
+      Eclips.Domain.Topology
+      Eclips.Domain.Value
+  hs-source-dirs:      src
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      cereal >=0.5.8 && <0.6,
+      containers >=0.8 && <0.9,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      eclips-public-types >=0.1 && <0.2,
+      text >=2.1.3 && <2.2
+  default-language:    GHC2024
+
+test-suite domain-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      AlignmentProperties
+      CanonicalGoldenProperties
+      ContextProperties
+      DescriptorProperties
+      DisappearanceProperties
+      EnvironmentProperties
+      FoundationProperties
+      LabelProperties
+      MembershipProperties
+      ProcessLifecycleProperties
+      QueryProperties
+      SortDefinitionValueProperties
+      SortOccurrenceProperties
+      StartupProperties
+      StoreProperties
+      StructuralProperties
+      TopologyProperties
+      ValueProperties
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      cereal >=0.5.8 && <0.6,
+      containers >=0.8 && <0.9,
+      cryptohash-sha256 >=0.11.102 && <0.12,
+      eclips-domain,
+      eclips-public-types >=0.1 && <0.2,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12,
+      text >=2.1.3 && <2.2
+  default-language:    GHC2024

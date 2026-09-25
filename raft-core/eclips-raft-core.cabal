@@ -1,0 +1,85 @@
+cabal-version:      3.0
+name:               eclips-raft-core
+version:            0.1.0.0
+build-type:         Simple
+license:            MIT
+license-file:       LICENSE
+extra-doc-files:    README.md
+author:             Erik Boasson
+maintainer:         Erik Boasson <eb@ilities.com>
+copyright:          2026 Erik Boasson
+synopsis:           Pure domain-independent Raft kernel with joint consensus
+description:
+    A deterministic in-memory Raft transition over opaque application bytes.
+    Runtime code supplies RPC, timer, proposal, and committed-entry acknowledgements
+    explicitly and interprets one sealed effect batch after adopting each
+    successor.
+category:           Distributed
+
+common warnings
+  ghc-options:
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-record-updates
+      -Wincomplete-uni-patterns
+      -Wmissing-export-lists
+      -Wredundant-constraints
+      -Wpartial-fields
+      -Wunused-packages
+      -Werror=incomplete-patterns
+      -Werror=missing-fields
+      -Werror=missing-methods
+
+library
+  import:             warnings
+  exposed-modules:
+      Eclips.Raft.Identity
+      Eclips.Raft.Configuration
+      Eclips.Raft.Checkpoint
+      Eclips.Raft.Genesis
+      Eclips.Raft.Input
+      Eclips.Raft.Effect
+      Eclips.Raft.State
+      Eclips.Raft.Transition
+  other-modules:
+      Eclips.Raft.Internal.Configuration
+      Eclips.Raft.Internal.Log
+      Eclips.Raft.Internal.Prepared
+      Eclips.Raft.Internal.State
+  hs-source-dirs:      src
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-public-types >=0.1 && <0.2
+  default-language:    GHC2024
+
+test-suite raft-core-properties
+  import:             warnings
+  type:               exitcode-stdio-1.0
+  main-is:            Main.hs
+  other-modules:
+      GenesisProperties
+      ConfigurationProperties
+      CheckpointProperties
+      LogWorkProperties
+      RaftModelProperties
+      ReconfigurationModelProperties
+      SmallClusterProperties
+      TransitionProperties
+  hs-source-dirs:      test
+  ghc-options:
+      -threaded
+      -rtsopts
+      "-with-rtsopts=-N4 -M768m"
+  build-depends:
+      base >=4.22 && <4.23,
+      bytestring >=0.12.2 && <0.13,
+      containers >=0.8 && <0.9,
+      eclips-raft-core,
+      process >=1.6 && <1.7,
+      tasty >=1.5 && <1.6,
+      tasty-hunit >=0.10 && <0.11,
+      tasty-quickcheck >=0.11 && <0.12
+  default-language:    GHC2024

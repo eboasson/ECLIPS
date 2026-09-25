@@ -1,0 +1,24 @@
+-- The default plan contains the networked implementation and its checked
+-- API tour and introductory context example. New architecture packages enter
+-- only with an exercised semantic boundary.
+packages:
+    ./public-types/eclips-public-types.cabal
+    ./application-types/eclips-application-types.cabal
+    ./domain/eclips-domain.cabal
+    ./protocol-frame/eclips-protocol-frame.cabal
+    ./protocol-application/eclips-protocol-application.cabal
+    ./protocol-admin/eclips-protocol-admin.cabal
+    ./protocol-peer/eclips-protocol-peer.cabal
+    ./raft-core/eclips-raft-core.cabal
+    ./oracle-core/eclips-oracle-core.cabal
+    ./protocol-raft/eclips-protocol-raft.cabal
+    ./protocol-oracle/eclips-protocol-oracle.cabal
+    ./herald-core/eclips-herald-core.cabal
+    ./application-client/eclips-application-client.cabal
+    ./application-api/eclips-application-api.cabal
+    ./oracle-runtime/eclips-oracle-runtime.cabal
+    ./herald-runtime/eclips-herald-runtime.cabal
+    ./deployment/eclips-deployment.cabal
+    ./examples/hello-world/eclips-hello-world.cabal
+    ./examples/hello-context/eclips-hello-context.cabal
+tests: True

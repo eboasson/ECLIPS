@@ -1,0 +1,31 @@
+-- | Checked domain-independent voting sets and exact native progress tokens.
+module Eclips.Raft.Configuration
+  ( RaftVoterSet,
+    raftVoterSet,
+    raftVoterSetNodes,
+    RaftVotingConfiguration,
+    stableRaftConfiguration,
+    jointRaftConfiguration,
+    RaftVotingConfigurationView (..),
+    raftVotingConfigurationView,
+    raftVotingConfigurationNodes,
+    raftConfigurationHasQuorum,
+    RaftConfigurationRef,
+    genesisRaftConfigurationRef,
+    raftConfigurationEntryRef,
+    RaftConfigurationRefView (..),
+    raftConfigurationRefView,
+    RaftConfigurationFault (..),
+    RaftParticipation (..),
+    RaftCatchUpFrontier,
+    raftCatchUpFrontierLeader,
+    raftCatchUpFrontierLeaderTerm,
+    raftCatchUpFrontierConfiguration,
+    raftCatchUpFrontierIndex,
+    raftCatchUpFrontierTerm,
+    RaftLearnerReadiness,
+    raftLearnerReadinessFrontier,
+    raftLearnerReadinessNode,
+  ) where
+
+import Eclips.Raft.Internal.Configuration
